@@ -17,7 +17,7 @@ representation：六亲，应为枚举
 soul：六神，应为枚举
 
 ### 卦/GUA
-defect：缺失的六亲，应为列表
+defects：缺失的六亲，应为列表
 yaos：六爻，应为列表
 
 ### 象/XIANG

@@ -1,3 +1,3 @@
 class GUA:
-    defect = None
+    defects = None
     yaos = None

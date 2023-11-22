@@ -1,7 +1,8 @@
 from XIANG import XIANG
 from GUA import GUA
 from YAO import YAO
-from enums import Sky, Earth, Reps, Soul
+from enums import Sky, Earth
+import utils
 
 def initialization():
 
@@ -11,11 +12,11 @@ def initialization():
 
     xiang.flag = 1
     xiang.base = base
-    xiang.year = [Sky.gui, Earth.mao]
-    xiang.month = [Sky.ren, Earth.xu]
-    xiang.day = [Sky.geng, Earth.xu]
-    xiang.hour = [Sky.bing, Earth.xu]
-    xiang.lacks = [Earth.yin, Earth.mao]
+    xiang.year = [Sky.GUI, Earth.MAO]
+    xiang.month = [Sky.REN, Earth.XU]
+    xiang.day = [Sky.GENG, Earth.XU]
+    xiang.hour = [Sky.BING, Earth.XU]
+    xiang.lacks = [Earth.YIN, Earth.MAO]
     xiang.question = '事业'
 
     base.yaos = yaos_base
@@ -38,8 +39,16 @@ def initialization():
 xiang = initialization()
 
 # 本卦推变卦
+utils.deriveChange(xiang)
 # 寻世应
+utils.seekForEgo(xiang)
 # 寻卦宫，后纳甲
+utils.matchSkyandEarch(xiang)
 # 寻六亲
+utils.seekForReps(xiang)
 # 缺六亲
+utils.seekForDefects(xiang)
 # 寻六神
+utils.seekForSouls(xiang)
+# 输出
+utils.show(xiang)
