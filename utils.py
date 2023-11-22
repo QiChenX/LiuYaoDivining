@@ -19,7 +19,43 @@ def deriveChange(xiang:XIANG):
 
 # 寻世应
 def seekForEgo(xiang:XIANG):
-    return 0
+    base = xiang.base
+    yaos = base.yaos
+    
+    s = False
+    h = False
+    e = False
+    if yaos[0].essence == yaos[3].essence:
+        e = True
+    if yaos[1].essence == yaos[4].essence:
+        h = True
+    if yaos[2].essence == yaos[5].essence:
+        s = True
+    
+    if s and h and e:
+        yaos[5].ego = 1
+        yaos[2].other = 1
+    if not (s or h or e):
+        yaos[2].ego = 1
+        yaos[5].other = 1
+    if s and not h and not e:
+        yaos[1].ego = 1
+        yaos[4].other = 1
+    if not s and h and e:
+        yaos[4].ego = 1
+        yaos[1].other = 1
+    if not s and not h and e:
+        yaos[3].ego = 1
+        yaos[0].other = 1
+    if s and h and not e:
+        yaos[0].ego = 1
+        yaos[3].other = 1
+    if not s and h and not e:
+        yaos[3].ego = 1
+        yaos[0].other = 1
+    if s and not h and e:
+        yaos[2].ego = 1
+        yaos[5].other = 1
 
 
 # 寻卦宫，后纳甲
@@ -63,4 +99,8 @@ def showYAO(y:YAO):
         line += '----------'
     if y.feature == 0:
         line += '  变'
+    if y.ego == 1:
+        line += ' 世'
+    if y.other == 1:
+        line += ' 应'
     print(line)
