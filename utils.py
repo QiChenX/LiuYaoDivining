@@ -1,6 +1,7 @@
 from GUA import GUA
 from XIANG import XIANG
 from YAO import YAO
+from enums import Earth, Sky
 
 # 本卦推变卦
 def deriveChange(xiang:XIANG):
@@ -58,9 +59,114 @@ def seekForEgo(xiang:XIANG):
         yaos[5].other = 1
 
 
-# 寻卦宫，后纳甲
+# 纳甲
 def matchSkyandEarch(xiang:XIANG):
-    return 0
+    base = xiang.base
+    innerMatch(base)
+    outerMatch(base)
+    if xiang.flag == 1:
+        change = xiang.change
+        innerMatch(change)
+        outerMatch(change)
+
+
+def innerMatch(g:GUA):
+    sum = 0
+    yaos = g.yaos
+    # 计算卦宫
+    for i in range(3):
+        if yaos[i].essence == 1:
+            sum += 2**i
+    starting_point = getStartingPoint(sum, 0)
+    jia = sort(starting_point, sum)
+    yaos[0].najia = jia[0]
+    yaos[1].najia = jia[1]
+    yaos[2].najia = jia[2]
+
+
+def outerMatch(g:GUA):
+    sum = 0
+    yaos = g.yaos
+    # 计算卦宫
+    for i in range(3,6):
+        if yaos[i].essence == 1:
+            sum += 2**(i-3)
+    starting_point = getStartingPoint(sum, 1)
+    jia = sort(starting_point, sum)
+    yaos[3].najia = jia[0]
+    yaos[4].najia = jia[1]
+    yaos[5].najia = jia[2]
+
+
+def getStartingPoint(sum, in_or_out):
+    # in=0, out=1
+    # 乾7坎2艮4震1巽6离5坤0兑3
+    match sum:
+        case 0:
+            if in_or_out == 0:
+                return [Sky.YI, Earth.WEI]
+            else:
+                return [Sky.GUI, Earth.CHOU]
+        case 1:
+            if in_or_out == 0:
+                return [Sky.GENG, Earth.ZI]
+            else:
+                return [Sky.GENG, Earth.WU]
+        case 2:
+            if in_or_out == 0:
+                return [Sky.WU, Earth.YIN]
+            else:
+                return [Sky.WU, Earth.SHEN]
+        case 3:
+            if in_or_out == 0:
+                return [Sky.DING, Earth.SI]
+            else:
+                return [Sky.DING, Earth.HAI]
+        case 4:
+            if in_or_out == 0:
+                return [Sky.BING, Earth.CHEN]
+            else:
+                return [Sky.BING, Earth.XU]
+        case 5:
+            if in_or_out == 0:
+                return [Sky.JI, Earth.MAO]
+            else:
+                return [Sky.JI, Earth.YOU]
+        case 6:
+            if in_or_out == 0:
+                return [Sky.XIN, Earth.CHOU]
+            else:
+                return [Sky.XIN, Earth.WEI]
+        case 7:
+            if in_or_out == 0:
+                return [Sky.JIA, Earth.ZI]
+            else:
+                return [Sky.REN, Earth.WU]
+        case _:
+            return [Sky.REN, Earth.WU]
+
+
+def sort(starting_point, sum):
+    jia1 = [starting_point[0]]
+    jia2 = [starting_point[0]]
+    jia = [starting_point, jia1, jia2]
+
+    earth = starting_point[1]
+    enum = list(Earth.__members__.values())
+    starting_index = enum.index(earth)
+    # 7\2\4\1顺序，6\5\0\3逆序
+    if sum in [1,2,4,7]:
+        e1 = (starting_index + 2)%12
+        e2 = (starting_index + 4)%12
+    else:
+        e1 = (starting_index - 2)%12
+        e2 = (starting_index - 4)%12
+    earth1 = Earth(enum[e1])
+    earth2 = Earth(enum[e2])
+    jia1.append(earth1)
+    jia2.append(earth2)
+    return jia
+
 
 # 寻六亲
 def seekForReps(xiang:XIANG):
@@ -91,8 +197,11 @@ def showGUA(g:GUA):
         y = g.yaos[i]
         showYAO(y)
 
+
 def showYAO(y:YAO):
     line = ''
+    line += y.najia[0].value
+    line += y.najia[1].value
     if y.essence == 0:
         line += '----  ----'
     else:
