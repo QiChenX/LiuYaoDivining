@@ -1,7 +1,7 @@
 from GUA import GUA
 from XIANG import XIANG
 from YAO import YAO
-from enums import Earth, Sky
+from enums import Earth, PropertyPair, Reps, Sky
 
 # 本卦推变卦
 def deriveChange(xiang:XIANG):
@@ -170,7 +170,73 @@ def sort(starting_point, sum):
 
 # 寻六亲
 def seekForReps(xiang:XIANG):
-    return 0
+    xiang.origin = seekForOrigin(xiang.base)
+    property = 5
+    # 乾、兑属金
+    if xiang.origin in [7, 3]:
+        property = 0
+    # 坎属水
+    elif xiang.origin in [2]:
+        property = 1
+    # 艮、坤属土
+    elif xiang.origin in [4, 0]:
+        property = 2
+    # 震、巽属木
+    elif xiang.origin in [1, 6]:
+        property = 3
+    # 离属火
+    else:
+        property = 4
+    for yao in xiang.base.yaos:
+        findReps(property, yao)
+    if xiang.flag == 1:
+        for yao in xiang.change.yaos:
+            findReps(property, yao)
+
+
+def seekForOrigin(g:GUA):
+    yaos = g.yaos
+    s = (yaos[2].essence==yaos[5].essence)
+    h = (yaos[1].essence==yaos[4].essence)
+    e = (yaos[0].essence==yaos[3].essence)
+    # 乾7坎2艮4震1巽6离5坤0兑3
+    sum = 0
+    if s and not h and e:
+        for i in range(3):
+            if yaos[i].essence == 1:
+                sum += 2**i
+    else:
+        ego = 0
+        for i in range(6):
+            if yaos[i].ego == 1:
+                ego = i
+                break
+        if ego <= 2:
+            for i in range(3):
+                if yaos[i+3].essence == 1:
+                    sum += 2**i
+        else:
+            for i in range(3):
+                if yaos[i].essence == 0:
+                    sum += 2**i
+    return sum
+
+
+def findReps(property, yao:YAO):
+    # 金0木3水1火4土2
+    earth = yao.najia[1]
+    pair = [property, earth]
+    if pair in PropertyPair.GUAN.value:
+        yao.representation = Reps.GUAN
+    elif pair in PropertyPair.QI.value:
+        yao.representation = Reps.QI
+    elif pair in PropertyPair.XIONG.value:
+        yao.representation = Reps.XIONG
+    elif pair in PropertyPair.FU.value:
+        yao.representation = Reps.FU
+    else:
+        yao.representation = Reps.ZI
+
 
 # 缺六亲
 def seekForDefects(xiang:XIANG):
@@ -200,6 +266,7 @@ def showGUA(g:GUA):
 
 def showYAO(y:YAO):
     line = ''
+    line += y.representation.value
     line += y.najia[0].value
     line += y.najia[1].value
     if y.essence == 0:

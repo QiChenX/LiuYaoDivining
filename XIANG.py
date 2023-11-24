@@ -2,6 +2,7 @@ class XIANG:
     flag = None
     base = None
     change = None
+    origin = None
     year = None
     month = None
     day = None
