@@ -3,6 +3,7 @@ class XIANG:
     base = None
     change = None
     origin = None
+    defects = None
     year = None
     month = None
     day = None

@@ -17,7 +17,6 @@ representation：六亲，应为枚举
 soul：六神，应为枚举
 
 ### 卦/GUA
-defects：缺失的六亲，应为列表
 yaos：六爻，应为列表
 
 ### 象/XIANG
@@ -25,6 +24,7 @@ flag：0表示本卦不变，1表示本卦生变卦
 base：本卦
 change：变卦
 origin：卦宫，乾7坎2艮4震1巽6离5坤0兑3
+defects：缺失的六亲，应为列表
 year：年份，应为枚举的列表，分别表示干支，下同
 month：月份
 day：日期

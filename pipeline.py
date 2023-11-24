@@ -42,9 +42,9 @@ xiang = initialization()
 utils.deriveChange(xiang)
 # 寻世应
 utils.seekForEgo(xiang)
-# 寻卦宫，后纳甲
+# 纳甲
 utils.matchSkyandEarch(xiang)
-# 寻六亲
+# 寻卦宫，定六亲
 utils.seekForReps(xiang)
 # 缺六亲
 utils.seekForDefects(xiang)

@@ -240,7 +240,13 @@ def findReps(property, yao:YAO):
 
 # 缺六亲
 def seekForDefects(xiang:XIANG):
-    return 0
+    base = xiang.base
+    reps_set = set()
+    for y in base.yaos:
+        reps_set.add(y.representation)
+    all_reps = {Reps.FU, Reps.GUAN, Reps.XIONG, Reps.ZI, Reps.QI}
+    xiang.defects = list(all_reps-reps_set)
+
 
 # 寻六神
 def seekForSouls(xiang:XIANG):
@@ -256,6 +262,7 @@ def show(xiang:XIANG):
         print('')
         change = xiang.change
         showGUA(change)
+    print('缺六亲：'+str([d.value for d in xiang.defects]))
 
 
 def showGUA(g:GUA):
