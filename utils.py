@@ -1,7 +1,7 @@
 from GUA import GUA
 from XIANG import XIANG
 from YAO import YAO
-from enums import Earth, PropertyPair, Reps, Sky
+from enums import Earth, PropertyPair, Reps, Sky, Soul
 
 # 本卦推变卦
 def deriveChange(xiang:XIANG):
@@ -250,7 +250,29 @@ def seekForDefects(xiang:XIANG):
 
 # 寻六神
 def seekForSouls(xiang:XIANG):
-    return 0
+    sky = xiang.day[0]
+    origin_soul = None
+    if sky in [Sky.JIA, Sky.YI]:
+        origin_soul = Soul.LONG
+    elif sky in [Sky.BING, Sky.DING]:
+        origin_soul = Soul.QUE
+    elif sky in [Sky.WU]:
+        origin_soul = Soul.CHEN
+    elif sky in [Sky.JI]:
+        origin_soul = Soul.SHE
+    elif sky in [Sky.GENG, Sky.XIN]:
+        origin_soul = Soul.HU
+    else:
+        origin_soul = Soul.WU
+    
+    
+    enum = list(Soul.__members__.values())
+    starting_index = enum.index(origin_soul)
+    yaos = xiang.base.yaos
+    yaos[0].soul = origin_soul
+    for i in range(1, 6):
+        yaos[i].soul = Soul(enum[(starting_index+i)%6])
+
 
 # 输出
 def show(xiang:XIANG):
@@ -273,6 +295,9 @@ def showGUA(g:GUA):
 
 def showYAO(y:YAO):
     line = ''
+    if y.soul != None:
+        line += y.soul.value
+        line += ' '
     line += y.representation.value
     line += y.najia[0].value
     line += y.najia[1].value

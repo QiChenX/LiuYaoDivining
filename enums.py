@@ -39,11 +39,11 @@ class Reps(Enum):
 @unique
 class Soul(Enum):
     LONG = '青龙'
-    HU = '白虎'
     QUE = '朱雀'
-    WU = '玄武'
     CHEN = '勾陈'
     SHE = '腾蛇'
+    HU = '白虎'
+    WU = '玄武'
 
 @unique
 # 金0木3水1火4土2
