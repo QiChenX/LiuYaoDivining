@@ -276,6 +276,7 @@ def seekForSouls(xiang:XIANG):
 
 # 输出
 def show(xiang:XIANG):
+    showDate(xiang)
     base = xiang.base
     showGUA(base)
     if xiang.flag == 1:
@@ -285,6 +286,22 @@ def show(xiang:XIANG):
         change = xiang.change
         showGUA(change)
     print('缺六亲：'+str([d.value for d in xiang.defects]))
+
+
+def showDate(xiang:XIANG):
+    year = xiang.year
+    month = xiang.month
+    day = xiang.day
+    hour = xiang.hour
+    lacks = xiang.lacks
+    
+    date = ''
+    date += year[0].value + year[1].value + '年，'
+    date += month[0].value + month[1].value + '月，'
+    date += day[0].value + day[1].value + '日，'
+    date += hour[0].value + hour[1].value + '时   '
+    date += '空亡：' + lacks[0].value + lacks[1].value
+    print(date)
 
 
 def showGUA(g:GUA):

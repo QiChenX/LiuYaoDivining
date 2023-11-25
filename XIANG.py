@@ -10,3 +10,4 @@ class XIANG:
     hour = None
     lacks = None
     question = None
+    sex = None

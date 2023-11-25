@@ -31,3 +31,16 @@ day：日期
 hour：时辰
 lacks：空亡，应为枚举的列表，表示缺失的地支
 question：所占何事
+sex：卦主性别
+
+## 起卦
+### 随机数
+
+1. 把所占事项、卦主性别以及当前时间拼接为种子字符串my_string
+2. 把my_string转化为字节码my_bytes
+3. 使用SHA256对my_bytes进行加密得到my_hash
+4. 把my_hash转换为十进制数字作为种子输入random
+
+### 阳历转八字
+
+https://github.com/6tail/lunar-python/tree/master
