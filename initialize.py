@@ -7,14 +7,15 @@ import random
 from lunar_python import Solar
 import datetime
 
-def initialization():
+def initialization(question, sex):
 
     xiang = XIANG()
     base = GUA()
     yaos_base = [YAO() for _ in range(6)]
-    xiang.question = input('所占何事：')
-    xiang.sex = input('卦主性别：')
-
+    xiang.question = question
+    xiang.sex = sex
+    xiang.flag = 0
+    
     random_res = getRandomList(xiang.question, xiang.sex)
     for i in range(6):
         transfer(yaos_base[i], random_res[i])
